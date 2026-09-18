@@ -308,6 +308,10 @@ img{display:block;max-width:100%}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:90;width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#25D366;box-shadow:0 8px 22px rgba(0,0,0,.35);transition:transform .25s ease}
+.wa-float:hover{transform:scale(1.07)}
+.wa-float:active{transform:scale(.96)}
+@media (max-width:999px){.wa-float{bottom:82px}}
 </style>
 </helmet>
 
@@ -785,6 +789,10 @@ img{display:block;max-width:100%}
     <a href="#contact" sc-camel-on-click="{{ onContact }}" style="flex:1 1 60%;padding:16px;text-align:center;background:#C6A059;color:#14130F;font-size:12px;font-weight:600;letter-spacing:.04em">Gratis adviesgesprek</a>
   </div>
 </sc-if>
+
+<a class="wa-float" href="https://wa.me/31614959363?text=Hallo%2C%20ik%20wil%20graag%20meer%20informatie%20over%20een%20verbouwing." target="_blank" rel="noopener noreferrer" aria-label="Appen via WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path fill="#fff" d="M16.001 3C9.1 3 3.5 8.6 3.5 15.5c0 2.4.66 4.65 1.8 6.58L3 29l7.1-2.25a12.4 12.4 0 0 0 5.9 1.5c6.9 0 12.5-5.6 12.5-12.5S22.9 3 16 3Zm0 22.6c-1.86 0-3.6-.5-5.1-1.38l-.37-.22-4.2 1.33 1.37-4.1-.24-.39A10.06 10.06 0 0 1 5.9 15.5c0-5.57 4.53-10.1 10.1-10.1s10.1 4.53 10.1 10.1-4.53 10.1-10.1 10.1Zm5.55-7.56c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.93-2.24-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.53.07-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35Z"/></svg>
+</a>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#C6A059&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#C6A059&quot;,&quot;#B8873F&quot;,&quot;#A9A07E&quot;,&quot;#C08A5A&quot;],&quot;section&quot;:&quot;Merk&quot;},&quot;jarenErvaring&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:15,&quot;min&quot;:1,&quot;max&quot;:80,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Merk&quot;},&quot;projectenAfgerond&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:300,&quot;min&quot;:10,&quot;max&quot;:5000,&quot;step&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Merk&quot;},&quot;mobileStickyCta&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secties&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;subtiel&quot;,&quot;options&quot;:[&quot;subtiel&quot;,&quot;geen&quot;],&quot;tsType&quot;:&quot;'subtiel' | 'geen'&quot;,&quot;section&quot;:&quot;Interactie&quot;}}">

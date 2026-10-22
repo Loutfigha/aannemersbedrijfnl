@@ -1052,6 +1052,7 @@ class Component extends DCLogic {
   get reduced(){ return this.props.motion === 'geen' || (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
 
   componentDidMount(){
+    this._t0 = Date.now();
     this.onScroll = () => {
       if (this._raf) return;
       this._raf = requestAnimationFrame(() => {
@@ -1081,7 +1082,7 @@ class Component extends DCLogic {
     document.removeEventListener('scroll', this.onScroll, true);
     window.removeEventListener('resize', this.onResize);
     if (this._io) this._io.disconnect();
-    clearTimeout(this._t1); clearTimeout(this._t2); clearTimeout(this._send);
+    clearTimeout(this._t1); clearTimeout(this._t2);
   }
   componentDidUpdate(){
     requestAnimationFrame(() => this.reveal());
@@ -1125,9 +1126,21 @@ class Component extends DCLogic {
     if (!(f.naam || '').trim()) { this.setState({ error:'Vul uw naam in.' }); return; }
     if (!/^[0-9+()\s-]{8,}$/.test((f.telefoon || '').trim())) { this.setState({ error:'Vul een geldig telefoonnummer in.' }); return; }
     if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test((f.email || '').trim())) { this.setState({ error:'Vul een geldig e-mailadres in.' }); return; }
+    if (this.state.status === 'sending') return;
     this.setState({ status:'sending', error:'' });
-    clearTimeout(this._send);
-    this._send = setTimeout(() => this.setState({ status:'sent' }), 1100);
+    const failed = 'Verzenden is mislukt. Probeer het later opnieuw of bel ons op +31 6 14 95 93 63.';
+    fetch('contact.php', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body:JSON.stringify({
+        naam:f.naam, telefoon:f.telefoon, email:f.email, postcode:f.plaats,
+        werk:this.state.picked, omschrijving:f.omschrijving,
+        t:Date.now() - (this._t0 || Date.now())
+      })
+    })
+      .then(r => r.json().catch(() => ({})).then(d => ({ ok:r.ok && d.ok === true, error:d.error })))
+      .then(res => this.setState(res.ok ? { status:'sent' } : { status:'idle', error:res.error || failed }))
+      .catch(() => this.setState({ status:'idle', error:failed }));
   };
   restart = (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ status:'idle', form:{}, picked:[], error:'' }); };
 

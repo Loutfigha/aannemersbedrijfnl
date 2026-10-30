@@ -107,10 +107,10 @@ function ab_schema(): array
 
 function ab_image_ok(string $path): bool
 {
-    if (preg_match('#^uploads/[a-f0-9]{16}\.(webp|jpg)$#', $path)) {
+    if (preg_match('#^uploads/[a-f0-9]{16}\.(webp|jpg)$#D', $path)) {
         return is_file(AB_ROOT . '/' . $path);
     }
-    if (preg_match('#^assets/img/[A-Za-z0-9_-][A-Za-z0-9._-]*\.(jpe?g|png|webp)$#', $path) && strpos($path, '..') === false) {
+    if (preg_match('#^assets/img/[A-Za-z0-9_-][A-Za-z0-9._-]*\.(jpe?g|png|webp)$#D', $path) && strpos($path, '..') === false) {
         return is_file(AB_ROOT . '/' . $path);
     }
     return false;

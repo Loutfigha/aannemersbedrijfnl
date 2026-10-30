@@ -116,12 +116,13 @@ function audit(string $event, array $context = []): void
     try {
         $path = private_dir() . '/audit.log.php';
         $line = json_encode(['t' => date('c'), 'ip' => client_ip(), 'event' => $event] + $context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+        if (is_file($path) && filesize($path) > 1000000) {
+            @rename($path, private_dir() . '/audit.old.log.php');
+        }
         if (!is_file($path)) {
             @file_put_contents($path, AB_GUARD, LOCK_EX);
         }
-        if (is_file($path) && filesize($path) < 2000000) {
-            @file_put_contents($path, $line, FILE_APPEND | LOCK_EX);
-        }
+        @file_put_contents($path, $line, FILE_APPEND | LOCK_EX);
     } catch (Throwable $e) {
         error_log('audit failed: ' . $e->getMessage());
     }
@@ -149,18 +150,9 @@ function throttle_key(string $bucket): string
     return hash('sha256', $bucket);
 }
 
-function throttle_blocked(string $bucket, int $max, int $window): bool
+function throttle_take(string $bucket, int $max, int $window): bool
 {
-    $data = private_read('throttle') ?? [];
-    $key = throttle_key($bucket);
-    $now = time();
-    $hits = array_filter($data[$key] ?? [], static fn($t) => is_int($t) && $t > $now - $window);
-    return count($hits) >= $max;
-}
-
-function throttle_hit(string $bucket): void
-{
-    with_lock('throttle', static function () use ($bucket) {
+    return (bool) with_lock('throttle', static function () use ($bucket, $max, $window) {
         $data = private_read('throttle') ?? [];
         $now = time();
         foreach ($data as $k => $hits) {
@@ -170,17 +162,28 @@ function throttle_hit(string $bucket): void
             }
         }
         $key = throttle_key($bucket);
+        $recent = array_filter($data[$key] ?? [], static fn($t) => $t > $now - $window);
+        if (count($recent) >= $max) {
+            return false;
+        }
         $data[$key][] = $now;
         private_write('throttle', $data);
+        return true;
     });
 }
 
-function throttle_clear(string $bucket): void
+function throttle_refund(string $bucket): void
 {
     with_lock('throttle', static function () use ($bucket) {
         $data = private_read('throttle') ?? [];
-        unset($data[throttle_key($bucket)]);
-        private_write('throttle', $data);
+        $key = throttle_key($bucket);
+        if (!empty($data[$key])) {
+            array_pop($data[$key]);
+            if (!$data[$key]) {
+                unset($data[$key]);
+            }
+            private_write('throttle', $data);
+        }
     });
 }
 
@@ -239,7 +242,9 @@ function content_save(array $content): void
             $dir = private_dir() . '/backups';
             ensure_dir($dir);
             $id = date('Ymd-His');
-            private_write('backups/content-' . $id, $old);
+            if (!is_file($dir . '/content-' . $id . '.php')) {
+                private_write('backups/content-' . $id, $old);
+            }
             foreach (array_slice(content_backups(), 40) as $stale) {
                 @unlink($dir . '/content-' . $stale . '.php');
             }

@@ -35,11 +35,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 }
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-if ($origin !== '') {
-    $originHost = strtolower((string) parse_url($origin, PHP_URL_HOST));
-    if ($originHost !== SITE_HOST && $originHost !== 'www.' . SITE_HOST) {
-        respond(403, false, 'Verzenden is niet toegestaan vanaf deze website.');
-    }
+$originHost = strtolower((string) parse_url($origin, PHP_URL_HOST));
+if ($originHost !== SITE_HOST && $originHost !== 'www.' . SITE_HOST) {
+    respond(403, false, 'Verzenden is niet toegestaan vanaf deze website.');
 }
 
 $raw = file_get_contents('php://input', false, null, 0, 20000);
@@ -78,7 +76,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(422, false, 'Vul een geldig e-mailadres in.');
 }
 
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'onbekend';
+$ip = (string) ($_SERVER['REMOTE_ADDR'] ?? 'onbekend');
+$bin = @inet_pton($ip);
+if ($bin !== false && strlen($bin) === 16 && substr($bin, 0, 12) !== "\0\0\0\0\0\0\0\0\0\0\xff\xff") {
+    $ip = bin2hex(substr($bin, 0, 8));
+}
 $rlFile = sys_get_temp_dir() . '/ab_contact_' . md5($ip) . '.json';
 $now = time();
 $hits = [];
@@ -122,7 +124,7 @@ $headers[1] = 'Reply-To: =?UTF-8?B?' . base64_encode($naam) . '?= <' . $email . 
 
 $sent = mail(MAIL_TO, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
 if (!$sent) {
-    error_log('contact.php: mail() mislukt voor aanvraag van ' . $email);
+    error_log('contact.php: mail() mislukt');
     respond(500, false, 'Verzenden is mislukt. Probeer het later opnieuw of bel ons op +31 6 14 95 93 63.');
 }
 

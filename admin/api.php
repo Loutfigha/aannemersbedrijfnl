@@ -38,7 +38,7 @@ switch ($action) {
         $data = read_json_body();
         $result = ab_validate_content($data['content'] ?? null);
         if (!$result['ok']) {
-            fail('Controleer de gemarkeerde velden.', 422, ['errors' => $result['errors']]);
+            fail('Controleer de volgende punten.', 422, ['errors' => $result['errors']]);
         }
         content_save($result['content']);
         audit('content_saved', ['email' => $me]);

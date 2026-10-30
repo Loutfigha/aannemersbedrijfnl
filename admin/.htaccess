@@ -9,3 +9,10 @@ Options -Indexes
     Deny from all
   </IfModule>
 </Files>
+
+<IfModule mod_expires.c>
+  ExpiresActive Off
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache"
+</IfModule>

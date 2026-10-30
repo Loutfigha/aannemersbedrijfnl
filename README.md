@@ -104,3 +104,13 @@ De klant logt in op `https://aannemersbedrijf-nl.nl/admin/` en past teksten, cij
 - Zet af en toe een back-up van `ab-private/` en `uploads/` weg.
 
 **Eisen**: PHP 8.0 of hoger met de extensies GD (foto's) en bij voorkeur mbstring en exif.
+
+## Beveiliging en onderhoud van de beheeromgeving
+
+- **Nooit opschonen op de server.** Voer in `public_html` geen `git clean`, her-clone of "verwijder alles" uit. `uploads/` (foto's) en, als het buiten de webmap niet lukt, `admin/data/` staan niet in Git en gaan dan verloren. Zet regelmatig een back-up van `uploads/` en `ab-private/` weg.
+- **Privémap controleren.** Bij voorkeur staan de gegevens in `ab-private/` naast `public_html`. Staat onder **Account** een waarschuwing over `admin/data`, dan kon die map niet worden aangemaakt; laat dat controleren.
+- **Inloggen is beperkt:** maximaal 10 pogingen per 15 minuten per IP-adres en per account+IP, en 200 per uur per account. Daarna volgt een blokkade van maximaal een kwartier.
+- **Wachtwoord wijzigen** beëindigt alle andere sessies. Een gebruiker toevoegen vraagt het eigen wachtwoord.
+- **PHP-fouten** worden naar `ab-private/php-error.log.php` geschreven (niet naar een openbaar `error_log`).
+- Gelijktijdig bewerken door twee gebruikers: de laatste die opslaat wint; onder Back-ups staat de vorige versie.
+- Staat het domein achter een CDN of proxy, controleer dan of `REMOTE_ADDR` het echte IP-adres van de bezoeker is; anders delen alle bezoekers één inlogbucket.

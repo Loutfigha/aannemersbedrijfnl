@@ -23,8 +23,27 @@ require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/schema.php';
 require_once __DIR__ . '/media.php';
 
+function ab_configure_logging(bool $create): void
+{
+    try {
+        $dir = private_dir($create);
+        $log = $dir . '/php-error.log.php';
+        if (!is_file($log) && $create && is_writable($dir)) {
+            @file_put_contents($log, AB_GUARD);
+        }
+        if (is_file($log)) {
+            ini_set('error_log', $log);
+        }
+    } catch (Throwable $e) {
+        // geen privémap beschikbaar: standaardlogging van PHP blijft gelden
+    }
+}
+
+ab_configure_logging(false);
+
 function ab_boot(bool $api = false): void
 {
+    ab_configure_logging(true);
     enforce_https();
     send_security_headers();
     set_exception_handler(static function (Throwable $e) use ($api): void {

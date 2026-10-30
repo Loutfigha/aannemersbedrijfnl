@@ -17,22 +17,24 @@ if (current_user() !== null) {
 $error = '';
 $email = '';
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-    require_post_security(false);
+    require_form_security();
     $email = strtolower(clean_text($_POST['email'] ?? '', 120));
     $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
-    if (login_blocked($email)) {
-        http_response_code(429);
-        $error = 'Te veel mislukte pogingen. Probeer het over 15 minuten opnieuw.';
-    } elseif (strlen($password) <= 200 && login_attempt($email, $password)) {
+    $result = login_try($email, $password);
+    if ($result === 'ok') {
         header('Location: index.php');
         exit;
+    }
+    if ($result === 'blocked') {
+        http_response_code(429);
+        $error = 'Te veel mislukte pogingen. Probeer het over 15 minuten opnieuw.';
     } else {
         http_response_code(401);
         $error = 'Het e-mailadres of wachtwoord is onjuist.';
     }
 }
 
-$csrf = csrf_token();
+$csrf = form_token();
 view_head('Inloggen', 'auth');
 ?>
 <main class="auth-card">

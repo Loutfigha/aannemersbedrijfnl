@@ -9,3 +9,5 @@ node_modules/
 uploads/*
 !uploads/.htaccess
 admin/data/
+error_log
+**/error_log

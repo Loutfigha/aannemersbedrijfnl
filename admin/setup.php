@@ -24,17 +24,16 @@ if ($setupHash === '' || !preg_match('/^[a-f0-9]{64}$/', $setupHash)) {
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-    require_post_security(false);
+    require_form_security();
     $token = is_string($_POST['token'] ?? null) ? trim($_POST['token']) : '';
     $email = strtolower(clean_text($_POST['email'] ?? '', 120));
     $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
     $confirm = is_string($_POST['confirm'] ?? null) ? $_POST['confirm'] : '';
 
-    if (throttle_blocked('setup-ip:' . client_ip(), 10, 900)) {
+    if (!throttle_take('setup-ip:' . client_ip_key(), 10, 900)) {
         http_response_code(429);
         $error = 'Te veel pogingen. Probeer het over 15 minuten opnieuw.';
     } elseif (strlen($token) > 200 || !hash_equals($setupHash, hash('sha256', $token))) {
-        throttle_hit('setup-ip:' . client_ip());
         audit('setup_bad_token');
         http_response_code(403);
         $error = 'De installatiecode klopt niet.';
@@ -53,7 +52,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 users_save([['email' => $email, 'hash' => password_hash($password, PASSWORD_DEFAULT), 'created' => time()]]);
             });
             audit('setup_done', ['email' => $email]);
-            if (login_attempt($email, $password)) {
+            if (login_try($email, $password) === 'ok') {
                 header('Location: index.php');
                 exit;
             }
@@ -65,7 +64,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     }
 }
 
-$csrf = csrf_token();
+$csrf = form_token();
 view_head('Eerste installatie', 'auth');
 ?>
 <main class="auth-card">

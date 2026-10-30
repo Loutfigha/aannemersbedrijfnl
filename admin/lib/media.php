@@ -20,7 +20,7 @@ function media_list(): array
     $items = [];
     foreach (glob(AB_UPLOAD_DIR . '/*') ?: [] as $file) {
         $name = basename($file);
-        if (preg_match('/^[a-f0-9]{16}\.(webp|jpg)$/', $name) && is_file($file)) {
+        if (preg_match('/^[a-f0-9]{16}\.(webp|jpg)$/D', $name) && is_file($file)) {
             $path = 'uploads/' . $name;
             $items[] = [
                 'path' => $path, 'kind' => 'upload', 'size' => filesize($file) ?: 0,
@@ -32,7 +32,7 @@ function media_list(): array
     $bundled = [];
     foreach (glob(AB_IMG_DIR . '/*') ?: [] as $file) {
         $name = basename($file);
-        if (!preg_match('/^[A-Za-z0-9_-][A-Za-z0-9._-]*\.(jpe?g|png|webp)$/', $name) || in_array($name, media_hidden_bundled(), true)) {
+        if (!preg_match('/^[A-Za-z0-9_-][A-Za-z0-9._-]*\.(jpe?g|png|webp)$/D', $name) || in_array($name, media_hidden_bundled(), true)) {
             continue;
         }
         $bundled[] = ['path' => 'assets/img/' . $name, 'kind' => 'bundled', 'size' => filesize($file) ?: 0, 'time' => filemtime($file) ?: 0, 'used' => true];
@@ -79,7 +79,7 @@ function media_store_upload(array $file): array
     if (!in_array($type, [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)) {
         throw new RuntimeException('Gebruik een JPG-, PNG- of WebP-bestand.');
     }
-    if ($w < 1 || $h < 1 || $w > 8000 || $h > 8000 || $w * $h > 50000000) {
+    if ($w < 1 || $h < 1 || $w > 8000 || $h > 8000 || $w * $h > 36000000) {
         throw new RuntimeException('De foto heeft te veel pixels. Verklein de foto en probeer het opnieuw.');
     }
     @ini_set('memory_limit', '512M');
@@ -144,7 +144,7 @@ function media_store_upload(array $file): array
 
 function media_delete(string $path): string
 {
-    if (!preg_match('#^uploads/([a-f0-9]{16}\.(webp|jpg))$#', $path, $m)) {
+    if (!preg_match('#^uploads/([a-f0-9]{16}\.(webp|jpg))$#D', $path, $m)) {
         return 'Alleen eigen geüploade foto’s kunnen worden verwijderd.';
     }
     $used = json_encode([content_effective(), private_read('content')], JSON_UNESCAPED_SLASHES) ?: '';

@@ -13,28 +13,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     require_post_security(false);
     $action = is_string($_POST['action'] ?? null) ? $_POST['action'] : '';
     $guard = 'pw:' . $me;
-
-    if ($action === 'password') {
-        $current = is_string($_POST['current'] ?? null) ? $_POST['current'] : '';
-        $new = is_string($_POST['new'] ?? null) ? $_POST['new'] : '';
-        $confirm = is_string($_POST['confirm'] ?? null) ? $_POST['confirm'] : '';
-        $user = user_find($me);
-        if (throttle_blocked($guard, 10, 900)) {
+    $current = is_string($_POST['current'] ?? null) ? $_POST['current'] : '';
+    $user = user_find($me);
+    $verified = false;
+    if (in_array($action, ['password', 'add_user'], true)) {
+        if (!throttle_take($guard, 10, 900)) {
             $errors[] = 'Te veel pogingen. Probeer het over 15 minuten opnieuw.';
         } elseif ($user === null || strlen($current) > 200 || !password_verify($current, (string) $user['hash'])) {
-            throttle_hit($guard);
             $errors[] = 'Het huidige wachtwoord klopt niet.';
-        } elseif (($problem = password_problem($new, $me)) !== null) {
+        } else {
+            $verified = true;
+            throttle_refund($guard);
+        }
+    }
+
+    if ($action === 'password' && $verified) {
+        $new = is_string($_POST['new'] ?? null) ? $_POST['new'] : '';
+        $confirm = is_string($_POST['confirm'] ?? null) ? $_POST['confirm'] : '';
+        if (($problem = password_problem($new, $me)) !== null) {
             $errors[] = $problem;
         } elseif (!hash_equals($new, $confirm)) {
             $errors[] = 'De twee nieuwe wachtwoorden zijn niet gelijk.';
         } else {
             user_set_password($me, $new);
             session_regenerate_id(true);
+            $_SESSION['pwv'] = user_pwv(user_find($me));
             audit('password_changed', ['email' => $me]);
             $messages[] = 'Uw wachtwoord is gewijzigd.';
         }
-    } elseif ($action === 'add_user') {
+    } elseif ($action === 'add_user' && $verified) {
         $email = strtolower(clean_text($_POST['email'] ?? '', 120));
         $pw = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
         if (!valid_email($email)) {
@@ -112,6 +119,8 @@ view_topbar($me, $csrf, 'account');
     <form method="post" action="account.php" autocomplete="off">
       <input type="hidden" name="csrf" value="<?= h($csrf) ?>">
       <input type="hidden" name="action" value="add_user">
+      <label for="nu-current">Uw eigen wachtwoord (ter bevestiging)</label>
+      <input id="nu-current" name="current" type="password" autocomplete="current-password" required>
       <label for="nu-email">E-mailadres</label>
       <input id="nu-email" name="email" type="email" required>
       <label for="nu-pw">Wachtwoord (minimaal <?= AB_MIN_PASSWORD ?> tekens)</label>
@@ -119,6 +128,10 @@ view_topbar($me, $csrf, 'account');
       <button type="submit" class="btn">Gebruiker toevoegen</button>
     </form>
   </section>
+
+  <?php if (strpos(private_dir(), AB_ROOT) === 0): ?>
+  <p class="alert" role="note">Let op: de beheergegevens staan binnen de websitemap (<code>admin/data</code>). Vraag uw webbouwer dit te controleren en laat vooral geen Git-opschoning uitvoeren op de server.</p>
+  <?php endif; ?>
 
   <section class="card">
     <h2>Recente activiteit</h2>

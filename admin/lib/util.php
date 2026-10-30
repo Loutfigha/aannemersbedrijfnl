@@ -29,6 +29,19 @@ function client_ip(): string
     return (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 }
 
+function client_ip_key(): string
+{
+    $ip = client_ip();
+    $bin = @inet_pton($ip);
+    if ($bin === false || strlen($bin) !== 16) {
+        return $ip;
+    }
+    if (substr($bin, 0, 12) === "\0\0\0\0\0\0\0\0\0\0\xff\xff") {
+        return (string) inet_ntop(substr($bin, 12));
+    }
+    return bin2hex(substr($bin, 0, 8)) . '::/64';
+}
+
 function is_https(): bool
 {
     $https = strtolower((string) ($_SERVER['HTTPS'] ?? ''));
@@ -78,6 +91,9 @@ function send_security_headers(): void
     header('Cross-Origin-Opener-Policy: same-origin');
     header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
     header('X-Robots-Tag: noindex, nofollow, noarchive');
+    if (is_https()) {
+        header('Strict-Transport-Security: max-age=31536000');
+    }
     header('Cache-Control: no-store, max-age=0');
     header('Pragma: no-cache');
 }

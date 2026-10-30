@@ -18,7 +18,7 @@ $email = '';
 if ($setupHash === '' || !preg_match('/^[a-f0-9]{64}$/', $setupHash)) {
     http_response_code(404);
     view_head('Niet beschikbaar', 'auth');
-    echo '<main class="auth-card"><h1>Niet beschikbaar</h1><p class="muted">De eerste installatie is niet ingeschakeld.</p></main>';
+    echo '<main class="auth-card">'; view_auth_logo(); echo '<h1>Niet beschikbaar</h1><p class="muted">De eerste installatie is niet ingeschakeld.</p></main>';
     view_foot();
     exit;
 }
@@ -68,6 +68,7 @@ $csrf = form_token();
 view_head('Eerste installatie', 'auth');
 ?>
 <main class="auth-card">
+  <?php view_auth_logo(); ?>
   <h1>Eerste installatie</h1>
   <p class="muted">Maak het eerste account aan. U heeft hiervoor de installatiecode nodig.</p>
   <?php if ($error !== ''): ?><p class="alert" role="alert"><?= h($error) ?></p><?php endif; ?>

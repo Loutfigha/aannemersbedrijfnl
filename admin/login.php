@@ -38,6 +38,7 @@ $csrf = form_token();
 view_head('Inloggen', 'auth');
 ?>
 <main class="auth-card">
+  <?php view_auth_logo(); ?>
   <h1>Inloggen</h1>
   <p class="muted">Beheer van de website van Aannemersbedrijf NL.</p>
   <?php if ($error !== ''): ?><p class="alert" role="alert"><?= h($error) ?></p><?php endif; ?>

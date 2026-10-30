@@ -15,6 +15,11 @@ favicon.ico                 Favicon (verder in assets/icons/)
 .htaccess                   Hostinger/Apache: 404-pagina, compressie en caching
 assets/img/                 Foto's, logo's en de deelafbeelding (og-image.jpg, 1200x630)
 assets/icons/               Favicon-, app- en touch-iconen
+admin/                      Beheeromgeving (PHP, geen database) op /admin/
+content/default.js          Standaardinhoud van de site (teksten, lijsten, foto's)
+content/live.php            Levert de door de klant aangepaste inhoud aan de pagina
+contact.php                 Verstuurt het contactformulier per e-mail
+uploads/                    Foto's die de klant uploadt (ontstaan op de server, niet in Git)
 assets/fonts/               Archivo en Cormorant Garamond (lokaal, geen Google-verzoeken)
 assets/js/                  Pagina-runtime en React 18.3.1
 .nojekyll                   Nodig voor GitHub Pages
@@ -75,3 +80,27 @@ Het commando vervangt alleen URL's die met `https://` beginnen; het e-mailadres 
 - Werkgebied, plaats en eventueel adres, zodat ze op de site en in de LocalBusiness-schema kunnen komen.
 - Projectfoto's, locatie en doorlooptijd per project.
 - Privacyverklaring, cookiebeleid en algemene voorwaarden (de footerlinks verwijzen nog nergens naartoe).
+
+## Beheeromgeving (/admin/)
+
+De klant logt in op `https://aannemersbedrijf-nl.nl/admin/` en past teksten, cijfers, diensten, voordelen, werkwijze, veelgestelde vragen, projecten en foto's aan. De wijzigingen staan direct op de site. Telefoonnummer, e-mailadres, koppen, SEO-gegevens en het ontwerp blijven in de code.
+
+**Hoe het werkt**
+- `content/default.js` bevat de standaardinhoud. `index.html` laadt die en daarna `content/live.php`, dat de opgeslagen aanpassingen van de klant levert. Zo zijn aanpassingen van de klant en code-updates via Git los van elkaar: een Git-deploy overschrijft de inhoud van de klant niet.
+- De opgeslagen inhoud, accounts, sessies en back-ups staan in `ab-private/` naast `public_html` (buiten het web). Lukt dat niet, dan wordt `admin/data/` gebruikt, afgeschermd met `.htaccess` en een PHP-beveiligingsregel in elk bestand.
+- Foto's worden bij het uploaden verkleind (maximaal 2000 px) en als WebP opgeslagen in `uploads/`.
+- Bij elke keer opslaan wordt de vorige versie bewaard (laatste 40); terugzetten kan onder "Back-ups".
+
+**Eerste keer instellen**
+1. Wacht tot de deploy klaar is en open `/admin/`. Je komt op "Eerste installatie".
+2. Vul de installatiecode in (alleen bekend bij de eigenaar; in de repo staat alleen de hash in `admin/setup.hash`), kies een e-mailadres en een wachtwoord van minimaal 12 tekens.
+3. Maak daarna onder **Account** een tweede gebruiker aan voor de klant.
+4. De installatiecode werkt alleen zolang er nog geen account bestaat.
+
+**Wachtwoord kwijt?** Verwijder via Bestandsbeheer `ab-private/users.php` (of `admin/data/users.php`). Daarna werkt `/admin/` weer als eerste installatie, met dezelfde installatiecode. Wil je een nieuwe code, bereken dan `sha256` van de nieuwe code en zet die in `admin/setup.hash`.
+
+**Controleer na de eerste deploy**
+- Sla een aanpassing op, trigger in hPanel een nieuwe deploy en controleer dat de aanpassing blijft staan.
+- Zet af en toe een back-up van `ab-private/` en `uploads/` weg.
+
+**Eisen**: PHP 8.0 of hoger met de extensies GD (foto's) en bij voorkeur mbstring en exif.

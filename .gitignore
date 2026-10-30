@@ -4,3 +4,8 @@ Thumbs.db
 node_modules/
 .vercel/
 .netlify/
+
+# Beheeromgeving: gegevens die op de server ontstaan
+uploads/*
+!uploads/.htaccess
+admin/data/

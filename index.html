@@ -181,6 +181,8 @@
 </script>
 <noscript><style>x-dc{display:none}</style></noscript>
 <script>window.__resources = {"villa": "assets/img/villa-schemer.jpg", "steiger": "assets/img/renovatie-steiger.jpg", "tegel": "assets/img/badkamer-tegel.jpg", "travertin": "assets/img/badkamer-travertin.jpg", "wit": "assets/img/villa-wit.jpg", "https://unpkg.com/react@18.3.1/umd/react.production.min.js": "assets/js/react-18.3.1.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "assets/js/react-dom-18.3.1.production.min.js"};</script>
+<script src="content/default.js"></script>
+<script src="content/live.php"></script>
 <script src="assets/js/dc-runtime.js"></script>
 
 </head>
@@ -556,13 +558,13 @@ img{display:block;max-width:100%}
 
   <section aria-labelledby="hero-title" style="position:relative;min-height:min(96svh,1000px);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:#0B0B0A">
     <div data-parallax="0.06" style="position:absolute;inset:-4% 0;will-change:transform">
-      <img src="assets/img/badkamer-travertin.jpg" fetchpriority="high" width="1400" height="1190" alt="Gerenoveerde badkamer met travertijnwanden en vrijstaand bad" style="width:100%;height:100%;object-fit:cover">
+      <img sc-camel-src="{{ ph.hero.src }}" fetchpriority="high" alt="{{ ph.hero.alt }}" style="width:100%;height:100%;object-fit:cover">
     </div>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,10,.9) 0%,rgba(11,11,10,.62) 34%,rgba(11,11,10,.74) 70%,rgba(11,11,10,.96) 100%)"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,10,.88) 0%,rgba(11,11,10,.6) 44%,rgba(11,11,10,0) 78%)"></div>
     <div style="position:relative;width:100%;max-width:1560px;margin:0 auto;padding:clamp(130px,17vh,210px) clamp(18px,3.4vw,60px) 0">
       <h1 id="hero-title" style="margin:0;max-width:17ch;font-weight:400;font-size:clamp(38px,5.6vw,86px);line-height:1.04;letter-spacing:-.015em;animation:riseIn .9s cubic-bezier(.2,.7,.2,1) both">Uw woning <br><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#D8B472;font-size:1.12em;letter-spacing:-.01em">verdient het beste</span></h1>
-      <p style="margin:clamp(20px,2.4vw,32px) 0 0;max-width:52ch;font-size:clamp(14.5px,1.05vw,17px);line-height:1.7;color:rgba(240,234,223,.76);animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .15s both">Complete renovaties en verbouwingen voor particuliere en zakelijke opdrachtgevers. <span style="color:#F0EADF">Eén aannemer, één planning, één verantwoordelijkheid.</span> Dit is Aannemersbedrijf NL.</p>
+      <p style="margin:clamp(20px,2.4vw,32px) 0 0;max-width:52ch;font-size:clamp(14.5px,1.05vw,17px);line-height:1.7;color:rgba(240,234,223,.76);animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .15s both">{{ t.hero_intro }} <span style="color:#F0EADF">{{ t.hero_highlight }}</span> {{ t.hero_afsluiting }}</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(26px,3vw,42px);animation:riseIn .9s cubic-bezier(.2,.7,.2,1) .3s both">
         <a href="#contact" sc-camel-on-click="{{ onContact }}" style="display:inline-flex;align-items:center;gap:10px;padding:17px 28px;border-radius:999px;background:#C6A059;color:#14130F;font-size:12.5px;font-weight:600;transition:background .4s ease" style-hover="background:#E2C284">Plan een gratis adviesgesprek<span aria-hidden="true">→</span></a>
         <a href="#projecten" sc-camel-on-click="{{ onProjects }}" style="display:inline-flex;align-items:center;gap:10px;padding:17px 28px;border-radius:999px;border:1px solid rgba(233,224,208,.28);font-size:12.5px;font-weight:500;transition:border-color .4s ease,background .4s ease" style-hover="border-color:#C6A059;background:rgba(198,160,89,.1)">Bekijk onze projecten<span aria-hidden="true">→</span></a>
@@ -584,7 +586,7 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(18px,3.4vw,60px)">
       <div style="text-align:center;max-width:62ch;margin:0 auto">
         <h2 id="diensten-title" style="margin:0;font-weight:400;font-size:clamp(28px,3.8vw,58px);line-height:1.08;letter-spacing:-.014em">Onze <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#D8B472;font-size:1.1em">diensten</span></h2>
-        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">Volledige renovaties uit één hand. Alle disciplines worden vanuit één planning aangestuurd, van sloopwerk tot de laatste afwerking.</p>
+        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">{{ t.diensten_intro }}</p>
       </div>
       <div style="margin-top:clamp(34px,4.4vw,70px);display:flex;flex-wrap:wrap;gap:clamp(14px,1.6vw,24px)">
         <sc-for list="{{ featured }}" as="item" hint-placeholder-count="0">
@@ -611,11 +613,11 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(18px,3.4vw,60px)">
       <div style="text-align:center;max-width:60ch;margin:0 auto">
         <h2 id="voordelen-title" style="margin:0;font-weight:400;font-size:clamp(26px,3.4vw,52px);line-height:1.08;letter-spacing:-.014em"><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#D8B472;font-size:1.1em">Voordelen</span> van een complete renovatie</h2>
-        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">Werk dat in samenhang wordt uitgevoerd levert een beter resultaat op dan losse klussen achter elkaar.</p>
+        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">{{ t.voordelen_intro }}</p>
       </div>
       <div style="margin-top:clamp(30px,4vw,60px);display:flex;flex-wrap:wrap;gap:clamp(14px,1.6vw,24px);align-items:stretch">
         <div data-reveal="" style="opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);flex:1 1 420px;min-width:min(100%,280px);position:relative;min-height:340px;border-radius:10px;overflow:hidden;background:#221F1C">
-          <img loading="lazy" src="assets/img/villa-schemer.jpg" alt="Woning bij schemer, opgeleverd na complete verbouwing" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <img loading="lazy" sc-camel-src="{{ ph.voordelen.src }}" alt="{{ ph.voordelen.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         </div>
         <div style="flex:1 1 480px;min-width:min(100%,280px);display:flex;flex-wrap:wrap;gap:clamp(14px,1.6vw,24px);align-content:stretch">
           <sc-for list="{{ benefits }}" as="item" hint-placeholder-count="4">
@@ -634,7 +636,7 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:stretch">
       <div style="flex:1 1 480px;min-width:min(100%,300px);padding:clamp(48px,6.4vw,110px) clamp(18px,3.4vw,60px)">
         <h2 id="over-title" style="margin:0;font-weight:400;font-size:clamp(28px,3.6vw,54px);line-height:1.08;letter-spacing:-.015em;max-width:16ch">Al jaren bouwen wij vertrouwen — <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#6E5316;font-size:1.1em">project na project</span></h2>
-        <p style="margin:clamp(18px,2.2vw,30px) 0 0;max-width:48ch;font-size:15px;line-height:1.74;color:#5A5449">Achter elk project staan vakmensen die hun discipline beheersen. Wij stellen per project het team samen, sturen de uitvoering aan en houden planning en communicatie in één hand. U weet wie u spreekt en wat er wanneer gebeurt.</p>
+        <p style="margin:clamp(18px,2.2vw,30px) 0 0;max-width:48ch;font-size:15px;line-height:1.74;color:#5A5449">{{ t.over_intro }}</p>
         <div style="display:flex;flex-wrap:wrap;gap:clamp(22px,3vw,52px);margin-top:clamp(28px,3.4vw,50px)">
           <sc-for list="{{ aboutStats }}" as="item" hint-placeholder-count="4">
             <div style="display:flex;flex-direction:column;gap:6px;min-width:130px">
@@ -646,7 +648,7 @@ img{display:block;max-width:100%}
         <a href="#contact" sc-camel-on-click="{{ onContact }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:clamp(28px,3.4vw,50px);padding:17px 28px;border-radius:999px;background:#16150F;color:#F3EEE5;font-size:12.5px;font-weight:600;transition:background .4s ease" style-hover="background:#8A6A22">Plan een adviesgesprek<span aria-hidden="true">→</span></a>
       </div>
       <div style="flex:1 1 460px;min-width:min(100%,280px);position:relative;min-height:380px;background:#E3DCCE">
-        <img loading="lazy" src="assets/img/team.webp" width="1200" height="800" alt="Vakman van Aannemersbedrijf NL in werkkleding met bouwtekening in een woning tijdens de verbouwing" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <img loading="lazy" sc-camel-src="{{ ph.over.src }}" alt="{{ ph.over.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       </div>
     </div>
   </section>
@@ -655,7 +657,7 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(18px,3.4vw,60px)">
       <div style="text-align:center;max-width:56ch;margin:0 auto">
         <h2 id="projecten-title" style="margin:0;font-weight:400;font-size:clamp(26px,3.4vw,52px);line-height:1.08;letter-spacing:-.014em">Uitgelichte <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#D8B472;font-size:1.1em">projecten</span></h2>
-        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">Een selectie van opgeleverd werk.</p>
+        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.7)">{{ t.projecten_intro }}</p>
       </div>
       <div style="margin-top:clamp(28px,3.4vw,52px);display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between">
         <div role="group" aria-label="Filter op categorie" style="display:flex;flex-wrap:wrap;gap:8px">
@@ -698,11 +700,11 @@ img{display:block;max-width:100%}
   <section id="werkwijze" aria-labelledby="werkwijze-title" style="background:#F3EEE5;color:#16150F">
     <div style="width:100%;max-width:1560px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:stretch">
       <div style="flex:1 1 440px;min-width:min(100%,280px);position:relative;min-height:400px;background:#E3DCCE">
-        <img loading="lazy" src="assets/img/renovatie-steiger.jpg" alt="Steiger tegen een gevel tijdens renovatiewerkzaamheden" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <img loading="lazy" sc-camel-src="{{ ph.werkwijze.src }}" alt="{{ ph.werkwijze.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       </div>
       <div style="flex:1 1 520px;min-width:min(100%,300px);padding:clamp(48px,6.4vw,110px) clamp(18px,3.4vw,60px)">
         <h2 id="werkwijze-title" style="margin:0;font-weight:400;font-size:clamp(28px,3.6vw,54px);line-height:1.08;letter-spacing:-.015em;max-width:14ch"><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#6E5316;font-size:1.1em">De volgorde</span> van ons werk</h2>
-        <p style="margin:clamp(16px,2vw,26px) 0 0;max-width:46ch;font-size:15px;line-height:1.74;color:#5A5449">Van het eerste gesprek tot de oplevering doorloopt elk project dezelfde zeven fasen. U weet steeds waar het werk staat.</p>
+        <p style="margin:clamp(16px,2vw,26px) 0 0;max-width:46ch;font-size:15px;line-height:1.74;color:#5A5449">{{ t.werkwijze_intro }}</p>
         <ol style="list-style:none;margin:clamp(26px,3.2vw,44px) 0 0;padding:0;display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ steps }}" as="item" hint-placeholder-count="7">
             <li style="border-radius:8px;background:{{ item.bg }};border:1px solid {{ item.bc }};transition:background .4s ease,border-color .4s ease">
@@ -726,7 +728,7 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(18px,3.4vw,60px);display:flex;flex-wrap:wrap;gap:clamp(30px,4.4vw,90px);align-items:flex-start">
       <div style="flex:1 1 320px;min-width:min(100%,260px)">
         <h2 id="faq-title" style="margin:0;font-weight:400;font-size:clamp(26px,3.4vw,50px);line-height:1.08;letter-spacing:-.015em;max-width:14ch">Veelgestelde <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#6E5316;font-size:1.1em">vragen</span></h2>
-        <p style="margin:clamp(16px,2vw,26px) 0 0;max-width:40ch;font-size:14.5px;line-height:1.72;color:#5A5449">Staat uw vraag er niet bij? Bel of mail ons, dan krijgt u direct antwoord.</p>
+        <p style="margin:clamp(16px,2vw,26px) 0 0;max-width:40ch;font-size:14.5px;line-height:1.72;color:#5A5449">{{ t.faq_intro }}</p>
         <div style="margin-top:clamp(22px,2.6vw,36px);padding:clamp(20px,2vw,30px);border-radius:10px;background:#FBF8F2;border:1px solid rgba(22,21,15,.1)">
           <span style="display:block;font-size:14.5px;font-weight:600">Nog een vraag?</span>
           <p style="margin:10px 0 18px;font-size:13.5px;line-height:1.65;color:#5A5449">Wij nemen binnen 24 uur contact met u op.</p>
@@ -754,7 +756,7 @@ img{display:block;max-width:100%}
     <div style="width:100%;max-width:1560px;margin:0 auto;padding:0 clamp(18px,3.4vw,60px)">
       <div style="text-align:center;max-width:60ch;margin:0 auto">
         <h2 id="contact-title" style="margin:0;font-weight:400;font-size:clamp(27px,3.6vw,56px);line-height:1.08;letter-spacing:-.015em">Uw project begint met een <span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;color:#D8B472;font-size:1.1em">gesprek</span></h2>
-        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.72)">Vertel ons wat u wilt realiseren. Het adviesgesprek is gratis en vrijblijvend. <span style="color:#F0EADF">Wij reageren binnen 24 uur.</span></p>
+        <p style="margin:clamp(14px,1.6vw,22px) 0 0;font-size:14.5px;line-height:1.72;color:rgba(240,234,223,.72)">{{ t.contact_intro }} <span style="color:#F0EADF">Wij reageren binnen 24 uur.</span></p>
       </div>
       <div style="margin-top:clamp(30px,3.8vw,58px);display:flex;flex-wrap:wrap;gap:clamp(12px,1.4vw,20px)">
         <sc-for list="{{ contactCards }}" as="item" hint-placeholder-count="4">
@@ -824,7 +826,7 @@ img{display:block;max-width:100%}
           </sc-if>
         </form>
         <div style="flex:1 1 300px;min-width:min(100%,260px);position:relative;min-height:320px;border-radius:10px;overflow:hidden;background:#221F1C">
-          <img loading="lazy" src="assets/img/badkamer-tegel.jpg" alt="Gerenoveerde badkamer met grootformaat tegelwerk" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <img loading="lazy" sc-camel-src="{{ ph.contact.src }}" alt="{{ ph.contact.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
         </div>
       </div>
     </div>
@@ -906,7 +908,7 @@ img{display:block;max-width:100%}
     <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,3.6vw,72px);padding-bottom:clamp(32px,4vw,60px)">
       <div style="flex:1 1 280px;min-width:min(100%,240px);max-width:340px;display:flex;flex-direction:column;gap:16px">
         <img loading="lazy" src="assets/img/logo-groot.png" width="531" height="320" alt="Aannemersbedrijf NL" style="height:104px;width:auto;align-self:flex-start">
-        <p style="margin:0;font-size:13.5px;line-height:1.72;color:rgba(240,234,223,.58)">Complete renovaties en verbouwingen voor particuliere en zakelijke opdrachtgevers. Van eerste ontwerp tot oplevering.</p>
+        <p style="margin:0;font-size:13.5px;line-height:1.72;color:rgba(240,234,223,.58)">{{ t.footer_omschrijving }}</p>
       </div>
       <nav aria-label="Navigatie" style="flex:1 1 150px;min-width:130px;display:flex;flex-direction:column;gap:11px">
         <span style="font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#C6A059;margin-bottom:5px">Navigatie</span>
@@ -977,21 +979,6 @@ class Component extends DCLogic {
     setTimeout(() => this.jump('contact')(), 60);
   };
 
-  PHOTOS = {
-    villa:(window.__resources && window.__resources.villa) || './photos/villa-schemer.web.jpg',
-    wit:(window.__resources && window.__resources.wit) || './photos/villa-wit.web.jpg',
-    steiger:(window.__resources && window.__resources.steiger) || './photos/renovatie-steiger.web.jpg',
-    tegel:(window.__resources && window.__resources.tegel) || './photos/badkamer-tegel.web.jpg',
-    travertin:(window.__resources && window.__resources.travertin) || './photos/badkamer-travertin.web.jpg'
-  };
-  ALT = {
-    villa:'Woning bij schemer, opgeleverd na verbouwing',
-    wit:'Moderne woning met grote glaspartijen',
-    steiger:'Steiger tegen een gevel tijdens renovatiewerkzaamheden',
-    tegel:'Gerenoveerde badkamer met grootformaat tegelwerk',
-    travertin:'Badkamer met travertijnwanden en vrijstaand bad'
-  };
-
   NAV = [
     { label:'Diensten', id:'diensten' },
     { label:'Projecten', id:'projecten' },
@@ -1000,51 +987,22 @@ class Component extends DCLogic {
     { label:'Contact', id:'contact' }
   ];
 
-  SERVICES = [
-    { num:'01', title:'Complete woningrenovatie', short:'Volledige renovatie, van sloop en installatiewerk tot complete afwerking.', featured:true, photo:'wit' },
-    { num:'02', title:'Badkamer & toiletrenovatie', short:'Vernieuwing inclusief leidingwerk, tegelwerk, sanitair en afwerking.', featured:true, photo:'tegel' },
-    { num:'03', title:'Keukenrenovatie', short:'Bouwkundige voorbereiding, installaties, wanden, vloer en afwerking.' },
-    { num:'04', title:'Dakkapel & zolderverbouwing', short:'Meer woonruimte door een complete verbouwing van dakkapel en zolder.', featured:true, photo:'steiger' },
-    { num:'05', title:'Stucwerk & schilderwerk', short:'Strakke wanden en plafonds, binnen- en buitenschilderwerk.' },
-    { num:'06', title:'Loodgieterswerk', short:'Aanleg, aanpassing en onderhoud van leidingen, afvoer en sanitair.' },
-    { num:'07', title:'Vloeren', short:'Plaatsing en afwerking van verschillende vloertypen.' },
-    { num:'08', title:'Isolatie', short:'Verbetering van wooncomfort en energieprestatie.' },
-    { num:'09', title:'Tuinwerk', short:'Werkzaamheden rondom de woning en in de tuin.' }
-  ];
+  slugify(s){
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'project';
+  }
+  num(i){ return (i < 9 ? '0' : '') + (i + 1); }
 
-  BENEFITS = [
-    { num:'01', title:'Eén aanspreekpunt', text:'Alle disciplines worden door ons aangestuurd. U hoeft niet zelf partijen op elkaar af te stemmen.' },
-    { num:'02', title:'Eén planning', text:'Sloop, installaties en afbouw sluiten op elkaar aan, waardoor wachttijd tussen fasen wegvalt.' },
-    { num:'03', title:'Vaste afspraken', text:'De offerte is per onderdeel uitgesplitst. Wijzigingen leggen we vast voordat ze worden uitgevoerd.' },
-    { num:'04', title:'Vakmensen per discipline', text:'Voor elk onderdeel zetten we mensen in die dat werk dagelijks doen.' }
-  ];
-
-  PROCESS = [
-    { num:'01', title:'Kennismaking', text:'We bekijken de woning, bespreken uw wensen en inventariseren welk werk nodig is.' },
-    { num:'02', title:'Plan & offerte', text:'U ontvangt een offerte waarin de werkzaamheden per onderdeel zijn uitgesplitst.' },
-    { num:'03', title:'Voorbereiding', text:'Planning, materialen en de inzet van vakmensen per discipline worden vastgelegd.' },
-    { num:'04', title:'Sloopwerk', text:'Het bestaande werk wordt verwijderd en de ruimte wordt bouwklaar opgeleverd.' },
-    { num:'05', title:'Installatie', text:'Leidingwerk en elektra worden aangelegd of aangepast op de nieuwe indeling.' },
-    { num:'06', title:'Bouw & afwerking', text:'Wanden, plafonds, tegelwerk, vloeren, stucwerk en schilderwerk worden uitgevoerd.' },
-    { num:'07', title:'Oplevering', text:'We lopen het werk samen door en ronden de laatste punten af.' }
-  ];
-
-  FAQS = [
-    { q:'Verzorgt u het volledige project of alleen losse werkzaamheden?', a:'Beide. Wij treden op als hoofdaannemer voor complete renovaties en verbouwingen, en voeren afzonderlijke werkzaamheden zoals stucwerk, loodgieterswerk of vloeren ook zelfstandig uit.' },
-    { q:'Wie is mijn aanspreekpunt tijdens de uitvoering?', a:'U heeft één vast aanspreekpunt dat alle disciplines aanstuurt. Vragen over planning, uitvoering en meerwerk lopen via dezelfde persoon.' },
-    { q:'Hoe is de offerte opgebouwd?', a:'De werkzaamheden worden per onderdeel uitgesplitst, zodat inzichtelijk is wat er wordt uitgevoerd en wat het kost. De aanvraag is gratis en zonder verplichting.' },
-    { q:'Werkt u ook voor zakelijke opdrachtgevers?', a:'Ja. Wij werken voor vastgoedbeheerders, eigenaren, beleggers, VvE\u2019s en organisaties met terugkerend onderhoud of renovatiewerk.' },
-    { q:'Kan er in de woning worden gewoond tijdens de verbouwing?', a:'Dat hangt af van de omvang van het werk. We bespreken dit tijdens de kennismaking en stemmen de planning af op de situatie.' }
-  ];
-
-  GALLERY = [
-    { slug:'renovatie-begane-grond', cat:'Woningrenovatie', title:'Complete renovatie begane grond', photo:'wit', blurb:'Sloopwerk, installaties, vloeren en afwerking in samenhang uitgevoerd.', works:['Sloopwerk','Elektra','Loodgieterswerk','Vloeren','Stucwerk','Afwerking'] },
-    { slug:'badkamer-travertijn', cat:'Badkamer', title:'Badkamer met travertijn', photo:'travertin', blurb:'Bestaande ruimte verwijderd en opnieuw opgebouwd met natuursteen.', works:['Leidingwerk','Tegelwerk','Sanitair','Kitwerk'] },
-    { slug:'tegelwerk-sanitair', cat:'Badkamer', title:'Tegelwerk en sanitair vernieuwd', photo:'tegel', blurb:'Grootformaat tegelwerk en nieuw sanitair, inclusief leidingwerk.', works:['Verwijderen bestaande ruimte','Leidingwerk','Tegelwerk','Sanitair'] },
-    { slug:'zolder-dakkapel', cat:'Zolders', title:'Zolderverbouwing met dakkapel', photo:'steiger', blurb:'Extra woonruimte met dakkapel, isolatie en volledige afwerking.', works:['Dakkapel','Isolatie','Dakramen','Elektra','Vloerafwerking'] },
-    { slug:'woning-opgeleverd', cat:'Woningrenovatie', title:'Woning volledig opgeleverd', photo:'villa', blurb:'Van sloopwerk en installaties tot stucwerk, vloeren en schilderwerk.', works:['Sloopwerk','Installaties','Stucwerk','Vloeren','Schilderwerk'] }
-  ];
-  CATS = ['Alles','Woningrenovatie','Badkamer','Zolders'];
+  get C(){
+    const D = window.__defaults || {};
+    const L = window.__live || {};
+    const merged = k => Object.assign({}, D[k] || {}, L[k] || {});
+    const list = k => Array.isArray(L[k]) ? L[k] : (Array.isArray(D[k]) ? D[k] : []);
+    const fotos = {};
+    const df = D.fotos || {};
+    const lf = L.fotos || {};
+    Object.keys(df).forEach(k => { fotos[k] = Object.assign({}, df[k], lf[k] || {}); });
+    return { t:merged('teksten'), n:merged('cijfers'), f:fotos, diensten:list('diensten'), voordelen:list('voordelen'), werkwijze:list('werkwijze'), faq:list('faq'), projecten:list('projecten') };
+  }
 
   WORKTYPES = ['Complete renovatie','Badkamer','Keuken','Dakkapel of zolder','Stuc- en schilderwerk','Anders'];
 
@@ -1144,21 +1102,28 @@ class Component extends DCLogic {
   };
   restart = (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ status:'idle', form:{}, picked:[], error:'' }); };
 
-  media(key){
-    const p = key ? this.PHOTOS[key] : null;
-    return { hasPhoto:!!p, photo:p || '', alt:(key ? this.ALT[key] : '') || '' };
+  media(photo, alt, fallback){
+    return { hasPhoto:!!photo, photo:photo || '', alt:alt || fallback || '' };
   }
 
   renderVals(){
     const s = this.state;
     const gold = this.gold;
     const desktop = s.vw >= 1000;
-    const jaren = (this.props.jarenErvaring ?? 15) + '+';
-    const projecten = (this.props.projectenAfgerond ?? 300) + '+';
-    const all = this.GALLERY.map(g => Object.assign({}, g, {
-      href:'#project-' + g.slug, onOpen:this.openProject(g.slug)
-    }, this.media(g.photo)));
-    const shown = s.filter === 'Alles' ? all : all.filter(p => p.cat === s.filter);
+    const C = this.C;
+    const usedSlugs = {};
+    const all = C.projecten.map((g, i) => {
+      let slug = this.slugify(g.title);
+      if (usedSlugs[slug]) slug = slug + '-' + (i + 1);
+      usedSlugs[slug] = true;
+      return Object.assign({}, g, {
+        slug:slug, href:'#project-' + slug, onOpen:this.openProject(slug)
+      }, this.media(g.photo, g.alt, g.title));
+    });
+    const cats = ['Alles'];
+    all.forEach(p => { if (p.cat && cats.indexOf(p.cat) < 0) cats.push(p.cat); });
+    const filter = cats.indexOf(s.filter) > -1 ? s.filter : 'Alles';
+    const shown = filter === 'Alles' ? all : all.filter(p => p.cat === filter);
     const open = all.find(p => p.slug === s.openSlug) || null;
 
     return {
@@ -1166,16 +1131,17 @@ class Component extends DCLogic {
         label:n.label, href:'#' + n.id, index:'0' + (i + 1), onGo:this.jump(n.id),
         bg:'transparent', fg:'#F0EADF'
       })),
-      services:this.SERVICES,
-      featured:this.SERVICES.filter(x => x.featured).map(x => Object.assign({}, x, this.media(x.photo))),
-      benefits:this.BENEFITS,
+      t:C.t, ph:C.f,
+      services:C.diensten,
+      featured:C.diensten.filter(x => x.featured && x.photo).map(x => Object.assign({}, x, this.media(x.photo, x.alt, x.title))),
+      benefits:C.voordelen.map((b, i) => Object.assign({}, b, { num:this.num(i) })),
       gallery:shown,
-      filters:this.CATS.map(c => ({
-        label:c, pressed: s.filter === c ? 'true' : 'false',
+      filters:cats.map(c => ({
+        label:c, pressed: filter === c ? 'true' : 'false',
         onPick:(e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ filter:c }); if (this._track) this._track.scrollTo({ left:0 }); },
-        bg: s.filter === c ? gold : 'transparent',
-        fg: s.filter === c ? '#14130F' : '#F0EADF',
-        bc: s.filter === c ? gold : 'rgba(233,224,208,.2)'
+        bg: filter === c ? gold : 'transparent',
+        fg: filter === c ? '#14130F' : '#F0EADF',
+        bc: filter === c ? gold : 'rgba(233,224,208,.2)'
       })),
       countLabel:(shown.length < 10 ? '0' : '') + shown.length + (shown.length === 1 ? ' project' : ' projecten'),
       trackRef:this.trackRef, onPrev:this.scrollTrack(-1), onNext:this.scrollTrack(1),
@@ -1188,28 +1154,29 @@ class Component extends DCLogic {
       }) : { facts:[], works:[] },
       relatedProjects:open ? all.filter(p => p.slug !== open.slug).slice(0, 2) : [],
       onCloseProject:this.closeProject, onCloseToTop:this.closeToTop, onContactFromProject:this.contactFromProject,
-      steps:this.PROCESS.map((p, i) => Object.assign({}, p, {
+      steps:C.werkwijze.map((p, i) => Object.assign({}, p, {
+        num:this.num(i),
         onSelect:(e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ step: s.step === i ? -1 : i }); },
         open: s.step === i, expanded: s.step === i ? 'true' : 'false',
         bg: s.step === i ? '#FBF8F2' : 'transparent',
         bc: s.step === i ? 'rgba(110,83,22,.4)' : 'rgba(22,21,15,.12)',
         numColor: s.step === i ? '#6E5316' : 'rgba(22,21,15,.62)'
       })),
-      faqs:this.FAQS.map((f, i) => ({
+      faqs:C.faq.map((f, i) => ({
         q:f.q, a:f.a, num:'0' + (i + 1), open:s.faq === i, expanded: s.faq === i ? 'true' : 'false',
         sign: s.faq === i ? '\u2212' : '+',
         onToggle:(e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ faq: s.faq === i ? -1 : i }); }
       })),
       heroStats:[
-        { value:jaren, label:'Jaar ervaring' },
-        { value:projecten, label:'Projecten opgeleverd' },
-        { value:'100%', label:'Eigen aansturing' }
+        { value:C.n.jaren, label:'Jaar ervaring' },
+        { value:C.n.projecten, label:'Projecten opgeleverd' },
+        { value:C.n.aansturing, label:'Eigen aansturing' }
       ],
       aboutStats:[
-        { value:jaren, label:'Jaar ervaring' },
-        { value:projecten, label:'Projecten opgeleverd' },
-        { value:'9', label:'Disciplines in huis' },
-        { value:'24u', label:'Reactietijd' }
+        { value:C.n.jaren, label:'Jaar ervaring' },
+        { value:C.n.projecten, label:'Projecten opgeleverd' },
+        { value:C.n.disciplines, label:'Disciplines in huis' },
+        { value:C.n.reactietijd, label:'Reactietijd' }
       ],
       contactCards:[
         { label:'Telefoon', value:'+31 6 14 95 93 63', href:'tel:+31614959363' },
